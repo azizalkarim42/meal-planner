@@ -16,24 +16,13 @@ import { collect, empty, singleton, append, delay, toList } from "./fable_module
 export function generateGroceryList(recipes, meals) {
     return sortBy((item) => [item.Category, item.Name], map((tupledArg_1) => {
         const _arg_1 = tupledArg_1[0];
-        const items = tupledArg_1[1];
-        const unit_1 = _arg_1[1];
         const name_1 = _arg_1[0];
-        const cat_1 = _arg_1[2];
-        const totalAmount = sumBy((tupledArg_2) => {
-            const amt = tupledArg_2[3];
-            return amt;
-        }, items, {
+        const totalAmount = sumBy((tupledArg_2) => tupledArg_2[3], tupledArg_1[1], {
             GetZero: () => 0,
             Add: (x_1, y_1) => (x_1 + y_1),
         });
-        return new GroceryItem(substring(name_1, 0, 1).toLocaleUpperCase() + substring(name_1, 1), totalAmount, unit_1, cat_1, false);
-    }, List_groupBy((tupledArg) => {
-        const name = tupledArg[0];
-        const unit = tupledArg[1];
-        const cat = tupledArg[2];
-        return [name, unit, cat];
-    }, concat(choose((meal) => map_1((r_1) => {
+        return new GroceryItem(substring(name_1, 0, 1).toLocaleUpperCase() + substring(name_1, 1), totalAmount, _arg_1[1], _arg_1[2], false);
+    }, List_groupBy((tupledArg) => [tupledArg[0], tupledArg[1], tupledArg[2]], concat(choose((meal) => map_1((r_1) => {
         const factor = meal.Servings / max(1, r_1.Servings);
         return map((ing) => [ing.Name.toLocaleLowerCase(), ing.Unit, ing.GroceryCategory, ing.Amount * factor], r_1.Ingredients);
     }, tryFind((r) => (r.Id === meal.RecipeId), recipes)), meals)), {
@@ -61,16 +50,10 @@ function groceryItem(item, isChecked, dispatch) {
 }
 
 function copyToClipboard(items) {
-    const text = join("\n\n", map((tupledArg) => {
-        const cat = tupledArg[0];
-        const items_1 = tupledArg[1];
-        const header = toText(printf("== %s =="))(cat);
-        const lines = map((i_1) => {
-            const arg_2 = MeasureUnit__get_Abbrev(i_1.Unit);
-            return toText(printf("  [ ] %.0f %s %s"))(i_1.Amount)(arg_2)(i_1.Name);
-        }, items_1);
-        return join("\n", cons(header, lines));
-    }, List_groupBy((i) => i.Category, items, {
+    const text = join("\n\n", map((tupledArg) => join("\n", cons(toText(printf("== %s =="))(tupledArg[0]), map((i_1) => {
+        const arg_2 = MeasureUnit__get_Abbrev(i_1.Unit);
+        return toText(printf("  [ ] %.0f %s %s"))(i_1.Amount)(arg_2)(i_1.Name);
+    }, tupledArg[1]))), List_groupBy((i) => i.Category, items, {
         Equals: (x, y) => (x === y),
         GetHashCode: stringHash,
     })));
@@ -125,15 +108,10 @@ export function view(model, dispatch) {
                 children: "Plan some meals for the week to generate a shopping list!",
             })], ["children", reactApi.Children.toArray(Array.from(elems_2))])])))) : singleton(createElement("div", createObj(ofArray([["className", "grocery-sections"], (elems_4 = toList(delay(() => collect((matchValue) => {
                 let elems_3;
-                const category = matchValue[0];
-                const catItems = matchValue[1];
                 return singleton(createElement("div", createObj(ofArray([["className", "grocery-section"], (elems_3 = toList(delay(() => append(singleton(createElement("h3", {
                     className: "grocery-cat-header",
-                    children: category,
-                })), delay(() => collect((item) => {
-                    const isChecked = defaultArg(tryFind_1(item.Name, model.GroceryChecked), false);
-                    return singleton(groceryItem(item, isChecked, dispatch));
-                }, catItems))))), ["children", reactApi.Children.toArray(Array.from(elems_3))])]))));
+                    children: matchValue[0],
+                })), delay(() => collect((item) => singleton(groceryItem(item, defaultArg(tryFind_1(item.Name, model.GroceryChecked), false), dispatch)), matchValue[1]))))), ["children", reactApi.Children.toArray(Array.from(elems_3))])]))));
             }, grouped))), ["children", reactApi.Children.toArray(Array.from(elems_4))])]))));
         }));
     })), ["children", reactApi.Children.toArray(Array.from(elems_5))])])));

@@ -75,8 +75,7 @@ export function loadRecipes() {
     return defaultArg(bind((j) => {
         const matchValue = fromString((path, value) => list_4(uncurry2(Decode_recipe), path, value), j);
         if (matchValue.tag === 0) {
-            const r = matchValue.fields[0];
-            return r;
+            return matchValue.fields[0];
         }
         else {
             return undefined;
@@ -92,8 +91,7 @@ export function loadWeekPlan() {
     return bind((j) => {
         const matchValue = fromString(uncurry2(Decode_weekPlan), j);
         if (matchValue.tag === 0) {
-            const p = matchValue.fields[0];
-            return p;
+            return matchValue.fields[0];
         }
         else {
             return undefined;
@@ -109,8 +107,7 @@ export function loadTarget() {
     return defaultArg(bind((j) => {
         const matchValue = fromString(uncurry2(Decode_nutritionTarget), j);
         if (matchValue.tag === 0) {
-            const t = matchValue.fields[0];
-            return t;
+            return matchValue.fields[0];
         }
         else {
             return undefined;

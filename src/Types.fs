@@ -1,3 +1,26 @@
+(* MealPlanner.Types
+   ==================
+   Core domain model for the meal-planning application.
+
+   Key types and their relationships:
+
+   MealType      – time-of-day slot (Breakfast | Lunch | Dinner | Snack).
+   FoodCategory  – dietary / cuisine category attached to a Recipe.
+   MeasureUnit   – unit of measurement for Ingredient amounts (g, ml, cup, …).
+   Ingredient    – a single line item in a Recipe, with amount, unit, and
+                   grocery-aisle category for list generation.
+   Nutrition     – macro snapshot (calories, protein, carbs, fat) per serving;
+                   supports (+) so daily/weekly totals can be folded in one pass.
+   Recipe        – the central aggregate: ingredients, instructions, nutrition,
+                   suitable meal slots, and display metadata (emoji, favourite).
+   PlannedMeal   – a Recipe placed in the weekly grid (day 0–6 × MealType).
+   WeekPlan      – the full week: a Monday anchor date + list of PlannedMeals.
+   GroceryItem   – ingredient line aggregated across the week plan for shopping.
+   NutritionTarget – user-configured daily macro goals; defaults to a 2000 kcal
+                     balanced diet.
+   Model         – root Elmish model holding all application state.
+   Msg           – discriminated union of every state-transition message.
+*)
 module MealPlanner.Types
 
 open System

@@ -10,7 +10,6 @@ export function AppComponent() {
     const arg_1 = init();
     patternInput = reactApi.useReducer((m, msg) => update_1(msg, m), arg_1);
     const model = patternInput[0];
-    const dispatch = patternInput[1];
     const dependencies = [model.ActiveView];
     reactApi.useEffect(() => {
         let title;
@@ -18,7 +17,7 @@ export function AppComponent() {
         title = ((matchValue.tag === 1) ? "Recipes" : ((matchValue.tag === 2) ? "Recipe" : ((matchValue.tag === 3) ? "Edit Recipe" : ((matchValue.tag === 4) ? "Grocery List" : ((matchValue.tag === 5) ? "Nutrition" : "Week Planner")))));
         document.title = toText(printf("%s | MealPlanner"))(title);
     }, dependencies);
-    return view(model, dispatch);
+    return view(model, patternInput[1]);
 }
 
 export const root = createRoot(document.getElementById("app"));

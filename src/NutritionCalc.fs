@@ -1,3 +1,25 @@
+(* MealPlanner.NutritionCalc
+   ==========================
+   Pure nutrition calculation functions; no side-effects or UI dependencies.
+
+   All functions take an immutable Recipe list and derive results from it so
+   they can be called freely in the Elmish update loop or view layer.
+
+   mealNutrition      – scales a Recipe's per-serving nutrition by the number
+                        of servings in a PlannedMeal.
+   dailyNutrition     – folds mealNutrition over all meals on a given day
+                        (0 = Monday … 6 = Sunday).
+   weeklyNutrition    – folds mealNutrition over the entire week plan.
+   targetPercentage   – what fraction (0–100) of a daily target has been met;
+                        capped at 100 so the UI progress bar never overflows.
+   targetColor        – semantic colour for a progress indicator:
+                        green ≥ 90 %, amber ≥ 60 %, red > 120 %, grey otherwise.
+   formatValue        – locale-neutral numeric string for display in the Stats
+                        view (avoids trailing zeros for large values).
+   macroPercentages   – converts gram amounts to calorie-based percentages
+                        (protein 4 kcal/g, carbs 4 kcal/g, fat 9 kcal/g) for
+                        the macro-split visualisation.
+*)
 module MealPlanner.NutritionCalc
 
 open System

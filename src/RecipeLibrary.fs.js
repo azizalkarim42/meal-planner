@@ -149,18 +149,14 @@ function recipeDetail(recipeId, model, dispatch) {
 export function view(model, dispatch) {
     let elems_5;
     const filtered = filter((r) => {
-        const matchesSearch = ((model.SearchQuery === "") ? true : (r.Name.toLocaleLowerCase().indexOf(model.SearchQuery.toLocaleLowerCase()) >= 0)) ? true : (r.Description.toLocaleLowerCase().indexOf(model.SearchQuery.toLocaleLowerCase()) >= 0);
-        let matchesCat;
-        const matchValue = model.FilterCategory;
-        if (matchValue == null) {
-            matchesCat = true;
-        }
-        else {
-            const cat = matchValue;
-            matchesCat = equals(r.Category, cat);
-        }
-        if (matchesSearch) {
-            return matchesCat;
+        if (((model.SearchQuery === "") ? true : (r.Name.toLocaleLowerCase().indexOf(model.SearchQuery.toLocaleLowerCase()) >= 0)) ? true : (r.Description.toLocaleLowerCase().indexOf(model.SearchQuery.toLocaleLowerCase()) >= 0)) {
+            const matchValue = model.FilterCategory;
+            if (matchValue == null) {
+                return true;
+            }
+            else {
+                return equals(r.Category, matchValue);
+            }
         }
         else {
             return false;

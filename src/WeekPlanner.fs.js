@@ -6,8 +6,8 @@ import { createElement } from "react";
 import { map, append, empty, collect, singleton, delay, toList } from "./fable_modules/fable-library-js.4.24.0/Seq.js";
 import { MealTypes_all, MealType__get_Icon, Days_shortLabels, Days_labels, MealType__get_Label, Msg } from "./Types.fs.js";
 import { reactApi } from "./fable_modules/Feliz.2.9.0/./Interop.fs.js";
-import { dailyNutrition, targetColor, targetPercentage } from "./NutritionCalc.fs.js";
 import { min } from "./fable_modules/fable-library-js.4.24.0/Double.js";
+import { dailyNutrition, targetColor, targetPercentage } from "./NutritionCalc.fs.js";
 import { item } from "./fable_modules/fable-library-js.4.24.0/Array.js";
 import { rangeDouble } from "./fable_modules/fable-library-js.4.24.0/Range.js";
 
@@ -39,8 +39,7 @@ function mealSlot(recipes, meals, day, mealType, dispatch) {
             children: "+",
         })], ["children", reactApi.Children.toArray(Array.from(elems))])])))) : collect((meal) => {
             let elems_1;
-            const recipe = tryFind((r) => (r.Id === meal.RecipeId), recipes);
-            const matchValue = recipe;
+            const matchValue = tryFind((r) => (r.Id === meal.RecipeId), recipes);
             if (matchValue == null) {
                 return empty();
             }
@@ -67,11 +66,10 @@ function mealSlot(recipes, meals, day, mealType, dispatch) {
 
 function dayNutritionBar(nutrition, target) {
     let elems_1, elems;
-    const calPct = targetPercentage(nutrition.Calories, target.Calories);
     return createElement("div", createObj(ofArray([["className", "day-nutrition"], (elems_1 = [createElement("div", createObj(ofArray([["className", "day-cal-bar-track"], (elems = [createElement("div", {
         className: "day-cal-bar-fill",
         style: {
-            width: min(calPct, 100) + "%",
+            width: min(targetPercentage(nutrition.Calories, target.Calories), 100) + "%",
             backgroundColor: targetColor(nutrition.Calories, target.Calories),
         },
     })], ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("span", {
@@ -194,8 +192,7 @@ export function view(model, dispatch) {
                     return empty();
                 }
                 else {
-                    const mealType = matchValue;
-                    return singleton(recipePicker(model.Recipes, model.SelectedDay, mealType, dispatch));
+                    return singleton(recipePicker(model.Recipes, model.SelectedDay, matchValue, dispatch));
                 }
             }));
         }));

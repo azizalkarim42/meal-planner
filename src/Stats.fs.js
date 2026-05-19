@@ -12,27 +12,24 @@ import { rangeDouble } from "./fable_modules/fable-library-js.4.24.0/Range.js";
 
 function nutritionRing(label, value, target, unit, color) {
     let elems_3, elements_2, elements;
-    const pct = targetPercentage(value, target);
-    const radius = 36;
-    const stroke = 5;
-    const circumference = (2 * 3.141592653589793) * radius;
-    const offset = circumference * (1 - (pct / 100));
-    const size = (radius + stroke) * 2;
-    const center = radius + stroke;
+    const circumference = (2 * 3.141592653589793) * 36;
+    const offset = circumference * (1 - (targetPercentage(value, target) / 100));
+    const size = (36 + 5) * 2;
+    const center = 36 + 5;
     return createElement("div", createObj(ofArray([["className", "nut-ring"], (elems_3 = [createElement("svg", createObj(ofArray([["width", ~~size], ["height", ~~size], ["viewBox", (((((0 + " ") + 0) + " ") + ~~size) + " ") + ~~size], (elements_2 = ofArray([createElement("circle", {
         cx: center,
         cy: center,
-        r: radius,
+        r: 36,
         fill: "none",
         stroke: "rgba(255,255,255,0.06)",
-        strokeWidth: stroke,
+        strokeWidth: 5,
     }), createElement("circle", {
         cx: center,
         cy: center,
-        r: radius,
+        r: 36,
         fill: "none",
         stroke: color,
-        strokeWidth: stroke,
+        strokeWidth: 5,
         strokeLinecap: "round",
         strokeDasharray: toText(printf("%g %g"))(circumference)(circumference),
         strokeDashoffset: offset,
