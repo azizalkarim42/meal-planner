@@ -150,9 +150,39 @@ let private recipePicker (recipes: Recipe list) (day: int) (mealType: MealType) 
 
 /// Main week planner view
 let view (model: Model) (dispatch: Msg -> unit) =
+    let totalRecipes = model.Recipes.Length
+    let mealsPlanned = model.WeekPlan.Meals.Length
+
     Html.div [
         prop.className "planner-page"
         prop.children [
+            // Summary stats
+            Html.div [
+                prop.className "week-summary"
+                prop.style [ style.marginBottom 16 ]
+                prop.children [
+                    Html.div [
+                        prop.style [ style.display.grid; style.custom ("grid-template-columns", "1fr 1fr"); style.gap 8 ]
+                        prop.children [
+                            Html.div [
+                                prop.className "summary-item"
+                                prop.children [
+                                    Html.span [ prop.className "summary-val"; prop.text (string totalRecipes) ]
+                                    Html.span [ prop.className "summary-label"; prop.text "Total Recipes" ]
+                                ]
+                            ]
+                            Html.div [
+                                prop.className "summary-item"
+                                prop.children [
+                                    Html.span [ prop.className "summary-val"; prop.text (string mealsPlanned) ]
+                                    Html.span [ prop.className "summary-label"; prop.text "Meals This Week" ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+
             // Week navigation
             Html.div [
                 prop.className "week-nav"

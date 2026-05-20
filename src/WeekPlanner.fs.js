@@ -1,7 +1,7 @@
 import { day as day_1, toString, addDays } from "./fable_modules/fable-library-js.4.24.0/Date.js";
 import { printf, toText } from "./fable_modules/fable-library-js.4.24.0/String.js";
-import { contains, tryFind, ofArray, isEmpty, filter } from "./fable_modules/fable-library-js.4.24.0/List.js";
-import { safeHash, createObj, equals } from "./fable_modules/fable-library-js.4.24.0/Util.js";
+import { length, contains, tryFind, ofArray, isEmpty, filter } from "./fable_modules/fable-library-js.4.24.0/List.js";
+import { int32ToString, safeHash, createObj, equals } from "./fable_modules/fable-library-js.4.24.0/Util.js";
 import { createElement } from "react";
 import { map, append, empty, collect, singleton, delay, toList } from "./fable_modules/fable-library-js.4.24.0/Seq.js";
 import { MealTypes_all, MealType__get_Icon, Days_shortLabels, Days_labels, MealType__get_Label, Msg } from "./Types.fs.js";
@@ -153,49 +153,72 @@ function recipePicker(recipes, day, mealType, dispatch) {
  * Main week planner view
  */
 export function view(model, dispatch) {
-    let elems_3;
-    return createElement("div", createObj(ofArray([["className", "planner-page"], (elems_3 = toList(delay(() => {
-        let elems;
-        return append(singleton(createElement("div", createObj(ofArray([["className", "week-nav"], (elems = [createElement("button", {
-            className: "btn btn-secondary btn-small",
-            children: "←",
-            onClick: (_arg) => {
-                dispatch(new Msg(7, []));
-            },
-        }), createElement("h2", {
-            className: "week-title",
-            children: weekLabel(model.WeekPlan.WeekStart),
-        }), createElement("button", {
-            className: "btn btn-secondary btn-small",
-            children: "→",
-            onClick: (_arg_1) => {
-                dispatch(new Msg(6, []));
-            },
-        })], ["children", reactApi.Children.toArray(Array.from(elems))])])))), delay(() => {
-            let elems_2;
-            return append(singleton(createElement("div", createObj(ofArray([["className", "planner-grid"], (elems_2 = toList(delay(() => collect((day) => {
-                let elems_1;
-                const dayNut = dailyNutrition(model.Recipes, model.WeekPlan.Meals, day);
-                return singleton(createElement("div", createObj(ofArray([["className", (day === model.SelectedDay) ? "day-column selected" : "day-column"], (elems_1 = toList(delay(() => append(singleton(createElement("div", {
-                    className: "day-header",
-                    children: item(day, Days_shortLabels),
-                })), delay(() => append(singleton(dayNutritionBar(dayNut, model.NutritionTarget)), delay(() => collect((mt) => {
-                    let arg;
-                    return append(singleton(createElement("div", {
-                        className: "meal-type-label",
-                        children: (arg = MealType__get_Icon(mt), toText(printf("%s"))(arg)),
-                    })), delay(() => singleton(mealSlot(model.Recipes, model.WeekPlan.Meals, day, mt, dispatch))));
-                }, MealTypes_all))))))), ["children", reactApi.Children.toArray(Array.from(elems_1))])]))));
-            }, rangeDouble(0, 1, 6)))), ["children", reactApi.Children.toArray(Array.from(elems_2))])])))), delay(() => {
-                const matchValue = model.SelectedMealType;
-                if (matchValue == null) {
-                    return empty();
-                }
-                else {
-                    return singleton(recipePicker(model.Recipes, model.SelectedDay, matchValue, dispatch));
-                }
+    let elems_7;
+    const totalRecipes = length(model.Recipes) | 0;
+    const mealsPlanned = length(model.WeekPlan.Meals) | 0;
+    return createElement("div", createObj(ofArray([["className", "planner-page"], (elems_7 = toList(delay(() => {
+        let elems_3, elems_2, elems, elems_1;
+        return append(singleton(createElement("div", createObj(ofArray([["className", "week-summary"], ["style", {
+            marginBottom: 16,
+        }], (elems_3 = [createElement("div", createObj(ofArray([["style", {
+            display: "grid",
+            "grid-template-columns": "1fr 1fr",
+            gap: 8 + "px ",
+        }], (elems_2 = [createElement("div", createObj(ofArray([["className", "summary-item"], (elems = [createElement("span", {
+            className: "summary-val",
+            children: int32ToString(totalRecipes),
+        }), createElement("span", {
+            className: "summary-label",
+            children: "Total Recipes",
+        })], ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("div", createObj(ofArray([["className", "summary-item"], (elems_1 = [createElement("span", {
+            className: "summary-val",
+            children: int32ToString(mealsPlanned),
+        }), createElement("span", {
+            className: "summary-label",
+            children: "Meals This Week",
+        })], ["children", reactApi.Children.toArray(Array.from(elems_1))])])))], ["children", reactApi.Children.toArray(Array.from(elems_2))])])))], ["children", reactApi.Children.toArray(Array.from(elems_3))])])))), delay(() => {
+            let elems_4;
+            return append(singleton(createElement("div", createObj(ofArray([["className", "week-nav"], (elems_4 = [createElement("button", {
+                className: "btn btn-secondary btn-small",
+                children: "←",
+                onClick: (_arg) => {
+                    dispatch(new Msg(7, []));
+                },
+            }), createElement("h2", {
+                className: "week-title",
+                children: weekLabel(model.WeekPlan.WeekStart),
+            }), createElement("button", {
+                className: "btn btn-secondary btn-small",
+                children: "→",
+                onClick: (_arg_1) => {
+                    dispatch(new Msg(6, []));
+                },
+            })], ["children", reactApi.Children.toArray(Array.from(elems_4))])])))), delay(() => {
+                let elems_6;
+                return append(singleton(createElement("div", createObj(ofArray([["className", "planner-grid"], (elems_6 = toList(delay(() => collect((day) => {
+                    let elems_5;
+                    const dayNut = dailyNutrition(model.Recipes, model.WeekPlan.Meals, day);
+                    return singleton(createElement("div", createObj(ofArray([["className", (day === model.SelectedDay) ? "day-column selected" : "day-column"], (elems_5 = toList(delay(() => append(singleton(createElement("div", {
+                        className: "day-header",
+                        children: item(day, Days_shortLabels),
+                    })), delay(() => append(singleton(dayNutritionBar(dayNut, model.NutritionTarget)), delay(() => collect((mt) => {
+                        let arg;
+                        return append(singleton(createElement("div", {
+                            className: "meal-type-label",
+                            children: (arg = MealType__get_Icon(mt), toText(printf("%s"))(arg)),
+                        })), delay(() => singleton(mealSlot(model.Recipes, model.WeekPlan.Meals, day, mt, dispatch))));
+                    }, MealTypes_all))))))), ["children", reactApi.Children.toArray(Array.from(elems_5))])]))));
+                }, rangeDouble(0, 1, 6)))), ["children", reactApi.Children.toArray(Array.from(elems_6))])])))), delay(() => {
+                    const matchValue = model.SelectedMealType;
+                    if (matchValue == null) {
+                        return empty();
+                    }
+                    else {
+                        return singleton(recipePicker(model.Recipes, model.SelectedDay, matchValue, dispatch));
+                    }
+                }));
             }));
         }));
-    })), ["children", reactApi.Children.toArray(Array.from(elems_3))])])));
+    })), ["children", reactApi.Children.toArray(Array.from(elems_7))])])));
 }
 
