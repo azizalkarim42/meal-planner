@@ -195,6 +195,8 @@
         .summary-val{font-size:1.1rem;font-weight:700;display:block}
         .summary-label{font-size:.65rem;color:var(--text-secondary)}
 
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        .fade-in{animation:fadeIn .25s ease-out}
         @media(max-width:480px){.recipe-grid{grid-template-columns:1fr}.planner-grid{gap:4px}.day-column{min-width:60px;padding:6px}}
     </style>
 </head>

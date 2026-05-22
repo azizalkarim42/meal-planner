@@ -221,13 +221,19 @@ let view (model: Model) (dispatch: Msg -> unit) =
             Html.main [
                 prop.className "app-main"
                 prop.children [
-                    match model.ActiveView with
-                    | PlannerView -> WeekPlanner.view model dispatch
-                    | RecipeListView -> RecipeLibrary.view model dispatch
-                    | RecipeDetailView id -> RecipeLibrary.detailView id model dispatch
-                    | RecipeEditorView id -> RecipeEditor.view id model dispatch
-                    | GroceryListView -> GroceryList.view model dispatch
-                    | StatsView -> Stats.view model dispatch
+                    Html.div [
+                        prop.key (string model.ActiveView)
+                        prop.className "fade-in"
+                        prop.children [
+                            match model.ActiveView with
+                            | PlannerView -> WeekPlanner.view model dispatch
+                            | RecipeListView -> RecipeLibrary.view model dispatch
+                            | RecipeDetailView id -> RecipeLibrary.detailView id model dispatch
+                            | RecipeEditorView id -> RecipeEditor.view id model dispatch
+                            | GroceryListView -> GroceryList.view model dispatch
+                            | StatsView -> Stats.view model dispatch
+                        ]
+                    ]
                 ]
             ]
             navbar model.ActiveView dispatch

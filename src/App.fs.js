@@ -8,7 +8,7 @@ import { tryFind, add, empty as empty_1 } from "./fable_modules/fable-library-js
 import { createObj, int32ToString, safeHash, equals, comparePrimitives } from "./fable_modules/fable-library-js.4.24.0/Util.js";
 import { newGuid } from "./fable_modules/fable-library-js.4.24.0/Guid.js";
 import { max, tryParse } from "./fable_modules/fable-library-js.4.24.0/Double.js";
-import { FSharpRef } from "./fable_modules/fable-library-js.4.24.0/Types.js";
+import { toString, FSharpRef } from "./fable_modules/fable-library-js.4.24.0/Types.js";
 import { createElement } from "react";
 import { singleton as singleton_1, append as append_1, delay, toList } from "./fable_modules/fable-library-js.4.24.0/Seq.js";
 import { reactApi } from "./fable_modules/Feliz.2.9.0/./Interop.fs.js";
@@ -293,15 +293,15 @@ function navbar(activeView, dispatch) {
 }
 
 export function view(model, dispatch) {
-    let elems_2, elems, elems_1;
-    return createElement("div", createObj(ofArray([["className", "app-container"], (elems_2 = [createElement("header", createObj(ofArray([["className", "app-header"], (elems = [createElement("h1", {
+    let elems_3, elems, elems_2, elems_1;
+    return createElement("div", createObj(ofArray([["className", "app-container"], (elems_3 = [createElement("header", createObj(ofArray([["className", "app-header"], (elems = [createElement("h1", {
         children: "MealPlanner",
     }), createElement("span", {
         className: "app-subtitle",
         children: "Weekly Meal Planning",
-    })], ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("main", createObj(ofArray([["className", "app-main"], (elems_1 = toList(delay(() => {
+    })], ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("main", createObj(ofArray([["className", "app-main"], (elems_2 = [createElement("div", createObj(ofArray([["key", toString(model.ActiveView)], ["className", "fade-in"], (elems_1 = toList(delay(() => {
         const matchValue = model.ActiveView;
         return (matchValue.tag === 1) ? singleton_1(view_2(model, dispatch)) : ((matchValue.tag === 2) ? singleton_1(detailView(matchValue.fields[0])(model)(dispatch)) : ((matchValue.tag === 3) ? singleton_1(view_3(matchValue.fields[0], model, dispatch)) : ((matchValue.tag === 4) ? singleton_1(view_4(model, dispatch)) : ((matchValue.tag === 5) ? singleton_1(view_5(model, dispatch)) : singleton_1(view_6(model, dispatch))))));
-    })), ["children", reactApi.Children.toArray(Array.from(elems_1))])]))), navbar(model.ActiveView, dispatch)], ["children", reactApi.Children.toArray(Array.from(elems_2))])])));
+    })), ["children", reactApi.Children.toArray(Array.from(elems_1))])])))], ["children", reactApi.Children.toArray(Array.from(elems_2))])]))), navbar(model.ActiveView, dispatch)], ["children", reactApi.Children.toArray(Array.from(elems_3))])])));
 }
 
