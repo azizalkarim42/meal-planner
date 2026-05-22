@@ -171,12 +171,14 @@ let view (recipeId: Guid option) (model: Model) (dispatch: Msg -> unit) =
                 prop.children [
                     Html.label [ prop.className "form-label"; prop.text "Recipe Name" ]
                     Html.input [
-                        prop.className "text-input"
+                        prop.className (if model.RecipeForm.Name.Trim() = "" then "text-input input-error" else "text-input")
                         prop.placeholder "e.g. Chicken Pasta Salad"
                         prop.value model.RecipeForm.Name
                         prop.autoFocus true
                         prop.onChange (fun (v: string) -> dispatch (SetRecipeName v))
                     ]
+                    if model.RecipeForm.Name.Trim() = "" then
+                        Html.span [ prop.className "input-error-msg"; prop.text "Recipe name is required" ]
                 ]
             ]
 

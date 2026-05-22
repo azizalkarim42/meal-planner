@@ -1,6 +1,6 @@
 import { createElement } from "react";
 import { safeHash, equals, createObj } from "./fable_modules/fable-library-js.4.24.0/Util.js";
-import { singleton, append, map, delay, toList } from "./fable_modules/fable-library-js.4.24.0/Seq.js";
+import { empty, singleton, append, map, delay, toList } from "./fable_modules/fable-library-js.4.24.0/Seq.js";
 import { GroceryCategories_all, MeasureUnits_all, MeasureUnit__get_Abbrev, MeasureUnits_fromCode, MeasureUnit__get_Code, MealTypes_all, MealType__get_Label, MealType__get_Icon, FoodCategories_all, FoodCategory__get_Label, FoodCategory__get_Icon, RecipeEmojis_all, Msg } from "./Types.fs.js";
 import { reactApi } from "./fable_modules/Feliz.2.9.0/./Interop.fs.js";
 import { isEmpty, length, item, contains, ofArray } from "./fable_modules/fable-library-js.4.24.0/List.js";
@@ -160,18 +160,21 @@ export function view(recipeId, model, dispatch) {
         },
     }), createElement("h2", {
         children: isEditing ? "Edit Recipe" : "New Recipe",
-    }), createElement("div", createObj(ofArray([["className", "form-field"], (elems = [createElement("label", {
+    }), createElement("div", createObj(ofArray([["className", "form-field"], (elems = toList(delay(() => append(singleton(createElement("label", {
         className: "form-label",
         children: "Recipe Name",
-    }), createElement("input", {
-        className: "text-input",
+    })), delay(() => append(singleton(createElement("input", {
+        className: (model.RecipeForm.Name.trim() === "") ? "text-input input-error" : "text-input",
         placeholder: "e.g. Chicken Pasta Salad",
         value: model.RecipeForm.Name,
         autoFocus: true,
         onChange: (ev) => {
             dispatch(new Msg(8, [ev.target.value]));
         },
-    })], ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("div", createObj(ofArray([["className", "form-field"], (elems_1 = [createElement("label", {
+    })), delay(() => ((model.RecipeForm.Name.trim() === "") ? singleton(createElement("span", {
+        className: "input-error-msg",
+        children: "Recipe name is required",
+    })) : empty()))))))), ["children", reactApi.Children.toArray(Array.from(elems))])]))), createElement("div", createObj(ofArray([["className", "form-field"], (elems_1 = [createElement("label", {
         className: "form-label",
         children: "Description",
     }), createElement("textarea", {
